@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  db_post_management:
+    container_name: db_post_management
+    image: postgres
+    ports:
+      - ${DB_HOST_PORT}:${DB_CONTAINER_PORT}
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    networks:
+      - network_post_management
+    volumes:
+      - volume_post_management:/var/lib/postgresql/data
+
+networks:
+  network_post_management:
+    driver: bridge
+
+volumes:
+  volume_post_management:
