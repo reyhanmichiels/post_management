@@ -1,12 +1,18 @@
-import { User } from "../app/model/user.model";
-import { ResponseError } from "../exception/response.error";
+import { User } from "../app/model/entity.model.js";
+import jwt from "jsonwebtoken";
 
 export const isJWTValid = async (req, res, next) => {
   let token = req.get("Authorization");
-  token = token.split("Bearer ")[1];
+  token = String(token).split("Bearer ")[1];
 
   if (!token) {
-    throw new ResponseError(401, "Unauthorized");
+    res
+      .status(401)
+      .json({
+        error: "Unauthorized",
+      })
+      .end();
+    return;
   }
 
   try {
@@ -14,6 +20,11 @@ export const isJWTValid = async (req, res, next) => {
     req.user = await User.findByPk(decoded.userId);
     next();
   } catch (err) {
-    next(err);
+    res
+      .status(401)
+      .json({
+        error: "Unauthorized",
+      })
+      .end();
   }
 };
