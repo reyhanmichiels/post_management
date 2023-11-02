@@ -30,7 +30,7 @@ const remove = async (user, request) => {
         }
       );
 
-      if (totalPostInDatabase === 0) {
+      if (totalPostInDatabase.count === 0) {
         throw new ResponseError(404, "post not found");
       }
 
@@ -46,7 +46,7 @@ const remove = async (user, request) => {
       );
     });
   } catch (error) {
-    throw new ResponseError(err.status, err.message);
+    throw new ResponseError(error.status, error.message);
   }
 };
 
