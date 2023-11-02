@@ -3,6 +3,7 @@ import { logEvent } from "../middleware/log.middleware.js";
 import { errorMiddleware } from "../middleware/error.middleware.js";
 import { logResponse } from "../util/log.util.js";
 import { userApi } from "../route/user.route.js";
+import { postApi } from "../route/post.route.js";
 
 export const rest = express();
 
@@ -21,7 +22,7 @@ rest.get("/", (req, res, next) => {
 });
 
 rest.use(userApi);
-
+rest.use(postApi);
 //global middlware afterall route
 rest.use(errorMiddleware);
 
