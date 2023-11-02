@@ -1,6 +1,6 @@
 import { ResponseError } from "../../exception/response.error.js";
 import { sequelize } from "../../infrastructure/database/db_connection.js";
-import { User } from "../model/user.model.js";
+import { User } from "../model/entity.model.js";
 import userValidation from "../validation/user.validation.js";
 import { validate } from "../validation/validation.js";
 import bcrypt from "bcrypt";
