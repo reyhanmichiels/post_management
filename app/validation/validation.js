@@ -1,3 +1,5 @@
+import { ResponseError } from "../../exception/response.error.js";
+
 const validate = (schema, request) => {
   const result = schema.validate(request, {
     aboartEarly: false,
