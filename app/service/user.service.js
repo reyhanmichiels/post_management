@@ -4,6 +4,7 @@ import { User } from "../model/user.model.js";
 import userValidation from "../validation/user.validation.js";
 import { validate } from "../validation/validation.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const registration = async (request) => {
   request = validate(userValidation.registerUserValidation, request);
@@ -38,13 +39,43 @@ const registration = async (request) => {
         }
       );
     });
-    
+
     return user;
   } catch (error) {
     throw new ResponseError(error.status, error.message);
   }
 };
 
+const login = async (request) => {
+  request = validate(userValidation.loginUserValidation, request);
+
+  const user = await User.findOne({
+    where: {
+      email: request.email,
+    },
+  });
+
+  if (!user) {
+    throw new ResponseError(400, "email or password is wrong");
+  }
+
+  const isPasswordValid = await bcrypt.compare(request.password, user.password);
+  if (!isPasswordValid) {
+    throw new ResponseError(400, "email or password is wrong");
+  }
+
+  return jwt.sign(
+    {
+      userId: user.id,
+    },
+    process.env.JWT_SECRET_TOKEN,
+    {
+      expiresIn: "1h",
+    }
+  );
+};
+
 export default {
   registration,
+  login,
 };
