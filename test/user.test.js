@@ -54,3 +54,58 @@ describe("regist user || POST /api/users", () => {
     expect(result.body.error).toBe("email is already taken");
   });
 });
+
+describe("login user || POST /api/auth/login", () => {
+  beforeEach(async () => {
+    await createTestUser();
+  });
+
+  afterEach(async () => {
+    await removeAllTestUser();
+  });
+
+  it("should can be login", async () => {
+    const result = await supertest(rest).post("/api/auth/login").send({
+      email: "test@email.com",
+      password: "test_password",
+    });
+
+    console.info(result.body);
+
+    expect(result.status).toBe(200);
+    expect(result.body.data.token).toBeDefined();
+  });
+
+  it("should reject when email wrong", async () => {
+    const result = await supertest(rest).post("/api/auth/login").send({
+      email: "wrong@email.com",
+      password: "test_password",
+    });
+
+    console.info(result.body);
+
+    expect(result.status).toBe(400);
+    expect(result.body.error).toBe("email or password is wrong");
+  });
+
+  it("should reject when password wrong", async () => {
+    const result = await supertest(rest).post("/api/auth/login").send({
+      email: "test@email.com",
+      password: "wrong",
+    });
+
+    console.info(result.body);
+
+    expect(result.status).toBe(400);
+    expect(result.body.error).toBe("email or password is wrong");
+  });
+
+  it("should reject when request invalid", async () => {
+    const result = await supertest(rest).post("/api/auth/login").send({});
+
+    console.info(result.body);
+
+    expect(result.status).toBe(400);
+    expect(result.body.error).toBeDefined();
+  });
+});

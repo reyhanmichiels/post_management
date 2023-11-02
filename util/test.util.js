@@ -1,4 +1,5 @@
 import { User } from "../app/model/user.model.js";
+import bcrypt from "bcrypt";
 
 const removeAllTestUser = async () => {
   await User.destroy({
@@ -12,7 +13,7 @@ const createTestUser = async () => {
   await User.create({
     name: "test_name",
     email: "test@email.com",
-    password: "test_password",
+    password: await bcrypt.hash("test_password", 10),
   });
 };
 
