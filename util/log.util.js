@@ -1,6 +1,6 @@
 import { logger } from "../infrastructure/log/logger.js";
 
-export const logResponse = async (request) => {
+export const logResponse = (request) => {
   logger.info(`response HTTP Request`, {
     event: {
       url: request.url,
