@@ -57,6 +57,14 @@ const getTestUserToken = async () => {
   );
 };
 
+const getTestPost = async () => {
+  return await Post.findOne({
+    where: {
+      message: "test_message",
+    },
+  });
+};
+
 export {
   removeAllTestUser,
   createTestUser,
@@ -64,4 +72,5 @@ export {
   removeAllTestPost,
   getTestUser,
   getTestUserToken,
+  getTestPost,
 };
