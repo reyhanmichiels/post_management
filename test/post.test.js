@@ -106,6 +106,19 @@ describe("delete post || DELETE /api/users/posts/:postId", () => {
     expect(result.body.error).toBeDefined();
   });
 
+  it("should reject if post not found", async () => {
+    const token = "Bearer " + (await getTestUserToken());
+
+    const result = await supertest(rest)
+      .delete(`/api/users/posts/100`)
+      .set("Authorization", token);
+
+    console.info(result.body);
+
+    expect(result.status).toBe(404);
+    expect(result.body.error).toBe("post not found");
+  });
+
   it("should reject if authorization invalid", async () => {
     const testPost = await getTestPost();
 
