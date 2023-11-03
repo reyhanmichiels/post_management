@@ -31,7 +31,22 @@ const remove = async (req, res, next) => {
   }
 };
 
+const getAll = async (req, res, next) => {
+  try {
+    const result = await postService.getAll();
+
+    req.statusCode = 200;
+    logResponse(req);
+    res.status(200).json({
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   create,
   remove,
+  getAll,
 };
