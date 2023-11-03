@@ -64,4 +64,7 @@ Post.belongsTo(User);
 Post.hasMany(Comment);
 Comment.belongsTo(Post);
 
+User.hasMany(Comment);
+Comment.belongsTo(Post);
+
 export { User, Post, Comment };
