@@ -8,3 +8,4 @@ postApi.use(isJWTValid);
 
 postApi.post("/api/posts", postHandler.create);
 postApi.delete("/api/users/posts/:postId", postHandler.remove);
+postApi.get("/api/posts", postHandler.getAll);
