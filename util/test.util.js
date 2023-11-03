@@ -1,4 +1,4 @@
-import { Post, User } from "../app/model/entity.model.js";
+import { Post, User, Comment } from "../app/model/entity.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -65,6 +65,14 @@ const getTestPost = async () => {
   });
 };
 
+const removeAllTestComment = async () => {
+  await Comment.destroy({
+    where: {
+      comment: "test_comment",
+    },
+  });
+};
+
 export {
   removeAllTestUser,
   createTestUser,
@@ -73,4 +81,5 @@ export {
   getTestUser,
   getTestUserToken,
   getTestPost,
+  removeAllTestComment,
 };
