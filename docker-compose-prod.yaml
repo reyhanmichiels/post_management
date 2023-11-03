@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  app_post_management:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app_post_management
+    image: post_management
+    ports:
+      - "3000:3000"
+    networks:
+      - network_post_management
+    depends_on:
+      - db_post_management
+    restart: on-failure
