@@ -1,6 +1,6 @@
 import { ResponseError } from "../../exception/response.error.js";
 import { sequelize } from "../../infrastructure/database/db_connection.js";
-import { Post } from "../model/entity.model.js";
+import { Post, Comment } from "../model/entity.model.js";
 import postValidation from "../validation/post.validation.js";
 import { validate } from "../validation/validation.js";
 
@@ -50,7 +50,14 @@ const remove = async (user, request) => {
   }
 };
 
+const getAll = async () => {
+  return await Post.findAll({
+    include: Comment,
+  });
+};
+
 export default {
   create,
   remove,
+  getAll,
 };
