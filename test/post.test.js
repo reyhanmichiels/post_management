@@ -132,3 +132,28 @@ describe("delete post || DELETE /api/users/posts/:postId", () => {
     expect(result.body.error).toBe("Unauthorized");
   });
 });
+
+describe("get all post || GET /api/posts", () => {
+  beforeEach(async () => {
+    await createTestUser();
+    for (let i = 0; i < 5; i++) {
+      await createTestPost();
+    }
+  });
+
+  afterEach(async () => {
+    await removeAllTestPost();
+    await removeAllTestUser();
+  });
+  it("should get all post", async () => {
+    const token = "Bearer " + (await getTestUserToken());
+
+    const result = await supertest(rest)
+      .get("/api/posts")
+      .set("Authorization", token);
+
+    console.info(result.body);
+
+    expect(result.body.data.length).toBe(5);
+  });
+});
